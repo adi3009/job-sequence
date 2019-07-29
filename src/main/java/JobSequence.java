@@ -3,9 +3,7 @@ import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import com.google.common.graph.Traverser;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -32,31 +30,38 @@ public class JobSequence {
         return jobOrder.toString();
     }
 
-    private List<String[]> parseJobs(String jobs) {
-        String[] jobLines = jobs.split("\n");
-        List<String[]> jobRelations = new ArrayList<>();
-        Arrays.stream(jobLines).forEach(jobLine -> {
-            String[] individualJobs = jobLine.split("=>");
-            String dependentJob = individualJobs[0].trim();
-            String independentJob = individualJobs.length == 2 ? individualJobs[1].trim() : "";
-            jobRelations.add(new String[] {dependentJob, independentJob});
-        });
-
-        return jobRelations;
+    private Stream<Job> parseJobs(String jobs) {
+        return Arrays.stream(jobs.split("\n")).map(Job::new);
     }
 
-    private Graph<String> generateJobGraph(List<String[]> jobsAndDependencies) {
+    private Graph<String> generateJobGraph(Stream<Job> jobs) {
         MutableGraph<String> graph = GraphBuilder.directed()
                 .allowsSelfLoops(false)
                 .build();
 
-        jobsAndDependencies.stream().forEach(jobs -> {
-            if (jobs[1].isEmpty())
-                graph.addNode(jobs[0]);
+        jobs.forEach(job -> {
+            if (job.isDependent())
+                graph.putEdge(job.dependsOn, job.name);
             else
-                graph.putEdge(jobs[1], jobs[0]);
+                graph.addNode(job.name);
         });
 
         return graph;
+    }
+
+    private static class Job {
+        private String name;
+
+        private String dependsOn;
+
+        private Job(String jobLine) {
+            String[] names = jobLine.split("=>");
+            name = names[0].trim();
+            dependsOn = names.length == 2 ? names[1].trim() : "";
+        }
+
+        private boolean isDependent() {
+            return !dependsOn.isEmpty();
+        }
     }
 }
