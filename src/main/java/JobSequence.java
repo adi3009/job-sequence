@@ -3,6 +3,6 @@ public class JobSequence {
         if (jobs.isEmpty())
             return "";
 
-        return jobs.substring(0, 1);
+        return jobs.replace(" =>", "").replace("\n", "");
     }
 }

@@ -24,4 +24,11 @@ public class JobSequenceTest {
         String result = jobSequence.order("a =>");
         assertThat(result, is("a"));
     }
+
+    @Test
+    public void givenIndependentJobsTheResultContainsJobsInNoParticularOrder() {
+        jobSequence = new JobSequence();
+        String result = jobSequence.order("a =>\nb =>\nc =>\n");
+        assertThat(result, is("abc"));
+    }
 }
