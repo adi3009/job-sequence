@@ -1,5 +1,8 @@
 public class JobSequence {
     public String order(String jobs) {
-        return "";
+        if (jobs.isEmpty())
+            return "";
+
+        return jobs.substring(0, 1);
     }
 }

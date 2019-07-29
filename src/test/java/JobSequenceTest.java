@@ -9,4 +9,11 @@ public class JobSequenceTest {
         String result = jobSequence.order("");
         assertThat(result, is(""));
     }
+
+    @Test
+    public void givenASingleJobTheResultConsistsOfASingleJob() {
+        JobSequence jobSequence = new JobSequence();
+        String result = jobSequence.order("a =>");
+        assertThat(result, is("a"));
+    }
 }
