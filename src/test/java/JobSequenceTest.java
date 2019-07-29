@@ -2,6 +2,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.anyOf;
 
 public class JobSequenceTest {
     private JobSequence jobSequence;
@@ -30,5 +31,14 @@ public class JobSequenceTest {
         jobSequence = new JobSequence();
         String result = jobSequence.order("a =>\nb =>\nc =>\n");
         assertThat(result, is("abc"));
+    }
+
+    @Test
+    public void givenDependencyBetweenJobsTheResultContainsDependentJobsAfterIndependentJobs() {
+        jobSequence = new JobSequence();
+        String result = jobSequence.order("a =>\nb =>c\nc =>\n");
+        assertThat(result, is("acb"));
+        result = jobSequence.order("a =>\nb =>c\nc =>f\nd=>a\ne=>b\nf=>");
+        assertThat(result, anyOf(is("adfcbe"), is("fcbead")));
     }
 }
