@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class JobGraph {
+class JobGraph {
     private MutableGraph<String> graph;
 
     public final static String CAN_NOT_HAVE_CIRCULAR_DEPENDENCIES = "jobs can’t have circular dependencies.";
