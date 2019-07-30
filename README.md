@@ -32,11 +32,12 @@ For above job list, the graph would be
 
 ### Steps
 
-- Parse job string into ```Job``` class instances, will error if a job depends on itself.
+- Parse job string into ```Job``` class instances, will error if a job depends on itself. 
+    - e.g. ```a => b``` will be ```Job(name: 'a', dependsOn: 'b')```
 - Create a graph from a stream of ```Job``` instances, 
     - if a ```Job``` has no dependency then create a node in the graph
-    - else create an edge
+    - else add nodes and create an edge between nodes
     - Error if the graph has cycles.
 - Traverse the graph
-    - first list all independent nodes, nodes with 0 in-degree and out-degree
-    - traverse nodes with 1 or more out-degree in depth first pre order
+    - first list all independent nodes, nodes with 0 in-degree and 0 out-degree
+    - traverse nodes with 1 or more out-degree and 0 in-degree in depth first pre order
