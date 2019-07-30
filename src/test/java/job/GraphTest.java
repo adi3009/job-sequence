@@ -18,9 +18,9 @@ public class GraphTest {
     @Test
     public void givenAJobListTheGraphPutsDependentJobsLater() {
         List<Job> jobList = ImmutableList.of(
-                new Job("a =>b"),
-                new Job("b => c"),
-                new Job("c =>")
+                Job.fromLine("a =>b"),
+                Job.fromLine("b => c"),
+                Job.fromLine("c =>")
         );
 
         List<String> expectedOrder = ImmutableList.of("c", "b", "a");
@@ -33,9 +33,9 @@ public class GraphTest {
     @Test
     public void jobGraphCanNotHaveCycles() {
         List<Job> jobList = ImmutableList.of(
-                new Job("a =>b"),
-                new Job("b => c"),
-                new Job("c =>a")
+                Job.fromLine("a =>b"),
+                Job.fromLine("b => c"),
+                Job.fromLine("c =>a")
         );
 
         thrown.expect(IllegalArgumentException.class);

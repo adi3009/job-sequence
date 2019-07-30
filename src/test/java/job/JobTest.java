@@ -13,16 +13,14 @@ public class JobTest {
 
     @Test
     public void createAJobFromJobLineThatDoesNotDependOnOtherJob() {
-        String line = "a => ";
-        Job aJob = new Job(line);
+        Job aJob = Job.fromLine("a => ");
         assertThat(aJob.getName(), is("a"));
         assertThat(aJob.isDependent(), is(false));
     }
 
     @Test
     public void createAJobFromJobLineThatDependsOnOtherJob() {
-        String line = "a => b";
-        Job aJob = new Job(line);
+        Job aJob = Job.fromLine("a => b");
         assertThat(aJob.getDependsOn(), is("b"));
     }
 
@@ -30,6 +28,6 @@ public class JobTest {
     public void aJobCanNotDependOnItself() {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage(Job.CAN_NOT_DEPEND_ON_ITSELF);
-        new Job("c=>c");
+        Job.fromLine("c=>c");
     }
 }

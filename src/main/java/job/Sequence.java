@@ -16,6 +16,6 @@ public class Sequence {
     }
 
     private Stream<Job> parseJobs(String jobs) {
-        return Arrays.stream(jobs.split("\n")).map(Job::new);
+        return Arrays.stream(jobs.split("\n")).map(Job::fromLine);
     }
 }
