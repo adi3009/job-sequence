@@ -1,13 +1,20 @@
 package job;
 
+import job.exception.SelfDependencyException;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.anyOf;
 
 public class SequenceTest {
     private Sequence sequence;
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void setup() {
@@ -38,5 +45,12 @@ public class SequenceTest {
         assertThat(result, is("acb"));
         result = sequence.order("a =>\nb =>c\nc =>f\nd=>a\ne=>b\nf=>");
         assertThat(result, anyOf(is("adfcbe"), is("fcbead")));
+    }
+
+    @Test
+    public void givenAJobDependsOnItselfTheResultShouldBeAnError() {
+        thrown.expect(SelfDependencyException.class);
+        thrown.expectMessage(Job.CAN_NOT_DEPEND_ON_ITSELF);
+        sequence.order("a =>\nb =>\nc =>c");
     }
 }
