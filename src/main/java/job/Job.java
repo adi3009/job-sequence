@@ -1,18 +1,18 @@
 package job;
 
-import job.exception.SelfDependencyException;
-
 class Job {
     private String name;
 
     private String dependsOn;
+
+    final static String CAN_NOT_DEPEND_ON_ITSELF = "jobs can’t depend on themselves.";
 
     Job(String jobLine) {
         String[] names = jobLine.split("=>");
         name = names[0].trim();
         dependsOn = names.length == 2 ? names[1].trim() : "";
         if (dependsOn.equals(name)) {
-            throw new SelfDependencyException();
+            throw new IllegalArgumentException(CAN_NOT_DEPEND_ON_ITSELF);
         }
     }
 

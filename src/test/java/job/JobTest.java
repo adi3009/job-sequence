@@ -1,6 +1,5 @@
 package job;
 
-import job.exception.SelfDependencyException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -29,8 +28,8 @@ public class JobTest {
 
     @Test
     public void aJobCanNotDependOnItself() {
-        thrown.expect(SelfDependencyException.class);
-        thrown.expectMessage(SelfDependencyException.MESSAGE);
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage(Job.CAN_NOT_DEPEND_ON_ITSELF);
         new Job("c=>c");
     }
 }

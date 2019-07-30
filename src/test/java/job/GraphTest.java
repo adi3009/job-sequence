@@ -1,7 +1,6 @@
 package job;
 
 import com.google.common.collect.ImmutableList;
-import job.exception.CircularDependencyException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -39,8 +38,8 @@ public class GraphTest {
                 new Job("c =>a")
         );
 
-        thrown.expect(CircularDependencyException.class);
-        thrown.expectMessage(CircularDependencyException.MESSAGE);
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage(JobGraph.CAN_NOT_HAVE_CIRCULAR_DEPENDENCIES);
         new JobGraph(jobList.stream());
     }
 }

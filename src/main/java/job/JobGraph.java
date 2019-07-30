@@ -4,7 +4,6 @@ import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.Graphs;
 import com.google.common.graph.MutableGraph;
 import com.google.common.graph.Traverser;
-import job.exception.CircularDependencyException;
 
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -12,6 +11,8 @@ import java.util.stream.Stream;
 
 public class JobGraph {
     private MutableGraph<String> graph;
+
+    public final static String CAN_NOT_HAVE_CIRCULAR_DEPENDENCIES = "jobs can’t have circular dependencies.";
 
     public JobGraph(Stream<Job> jobs) {
         graph = GraphBuilder.directed().build();
@@ -24,7 +25,7 @@ public class JobGraph {
         });
 
         if (Graphs.hasCycle(graph)) {
-            throw new CircularDependencyException();
+            throw new IllegalArgumentException(CAN_NOT_HAVE_CIRCULAR_DEPENDENCIES);
         }
     }
 

@@ -1,7 +1,5 @@
 package job;
 
-import job.exception.CircularDependencyException;
-import job.exception.SelfDependencyException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -50,15 +48,15 @@ public class SequenceTest {
 
     @Test
     public void givenAJobDependsOnItselfTheResultShouldBeAnError() {
-        thrown.expect(SelfDependencyException.class);
-        thrown.expectMessage(SelfDependencyException.MESSAGE);
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage(Job.CAN_NOT_DEPEND_ON_ITSELF);
         sequence.order("a =>\nb =>\nc =>c");
     }
 
     @Test
     public void givenJobsHaveCircularDependencyTheResultShouldBeAnError() {
-        thrown.expect(CircularDependencyException.class);
-        thrown.expectMessage(CircularDependencyException.MESSAGE);
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage(JobGraph.CAN_NOT_HAVE_CIRCULAR_DEPENDENCIES);
         sequence.order("a =>b\nb =>c\nc =>a");
     }
 }
