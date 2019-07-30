@@ -1,8 +1,10 @@
 package job;
 
 import com.google.common.graph.GraphBuilder;
+import com.google.common.graph.Graphs;
 import com.google.common.graph.MutableGraph;
 import com.google.common.graph.Traverser;
+import job.exception.CircularDependencyException;
 
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -20,6 +22,10 @@ public class JobGraph {
             else
                 graph.addNode(job.getName());
         });
+
+        if (Graphs.hasCycle(graph)) {
+            throw new CircularDependencyException();
+        }
     }
 
     public void traverse(Consumer<String> consumer) {
