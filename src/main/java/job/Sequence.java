@@ -8,14 +8,14 @@ public class Sequence {
         if (jobs.isEmpty())
             return "";
 
-        JobGraph jobGraph = JobGraph.forJobs(parseJobs(jobs));
-        StringBuilder jobOrder = new StringBuilder();
-        jobGraph.traverse(jobOrder::append);
+        StringBuilder ordering = new StringBuilder();
+        JobGraph.forJobs(parse(jobs))
+                .traverse(ordering::append);
 
-        return jobOrder.toString();
+        return ordering.toString();
     }
 
-    private Stream<Job> parseJobs(String jobs) {
+    private Stream<Job> parse(String jobs) {
         return Arrays.stream(jobs.split("\n")).map(Job::fromLine);
     }
 }
