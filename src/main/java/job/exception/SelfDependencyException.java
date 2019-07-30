@@ -1,7 +1,9 @@
 package job.exception;
 
 public class SelfDependencyException extends RuntimeException {
-    public SelfDependencyException(String message) {
-        super(message);
+    public final static String MESSAGE = "jobs can’t depend on themselves.";
+
+    public SelfDependencyException() {
+        super(MESSAGE);
     }
 }

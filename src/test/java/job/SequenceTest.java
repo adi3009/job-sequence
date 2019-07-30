@@ -7,9 +7,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.anyOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class SequenceTest {
     private Sequence sequence;
@@ -51,7 +51,7 @@ public class SequenceTest {
     @Test
     public void givenAJobDependsOnItselfTheResultShouldBeAnError() {
         thrown.expect(SelfDependencyException.class);
-        thrown.expectMessage(Job.CAN_NOT_DEPEND_ON_ITSELF);
+        thrown.expectMessage(SelfDependencyException.MESSAGE);
         sequence.order("a =>\nb =>\nc =>c");
     }
 

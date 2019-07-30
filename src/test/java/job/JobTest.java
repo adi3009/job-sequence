@@ -30,7 +30,7 @@ public class JobTest {
     @Test
     public void aJobCanNotDependOnItself() {
         thrown.expect(SelfDependencyException.class);
-        thrown.expectMessage(Job.CAN_NOT_DEPEND_ON_ITSELF);
+        thrown.expectMessage(SelfDependencyException.MESSAGE);
         new Job("c=>c");
     }
 }
