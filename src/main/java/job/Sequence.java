@@ -8,7 +8,7 @@ public class Sequence {
         if (jobs.isEmpty())
             return "";
 
-        JobGraph jobGraph = new JobGraph(parseJobs(jobs));
+        JobGraph jobGraph = JobGraph.forJobs(parseJobs(jobs));
         StringBuilder jobOrder = new StringBuilder();
         jobGraph.traverse(jobOrder::append);
 

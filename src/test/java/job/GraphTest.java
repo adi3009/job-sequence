@@ -25,7 +25,7 @@ public class GraphTest {
 
         List<String> expectedOrder = ImmutableList.of("c", "b", "a");
         List<String> actualOrder = new ArrayList<>();
-        JobGraph jobGraph = new JobGraph(jobList.stream());
+        JobGraph jobGraph = JobGraph.forJobs(jobList.stream());
         jobGraph.traverse(actualOrder::add);
         assertThat(actualOrder, is(expectedOrder));
     }
@@ -40,6 +40,6 @@ public class GraphTest {
 
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage(JobGraph.CAN_NOT_HAVE_CIRCULAR_DEPENDENCIES);
-        new JobGraph(jobList.stream());
+        JobGraph.forJobs(jobList.stream());
     }
 }
