@@ -1,3 +1,5 @@
+package job;
+
 import com.google.common.graph.Graph;
 import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
@@ -7,7 +9,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class JobSequence {
+public class Sequence {
     public String order(String jobs) {
         if (jobs.isEmpty())
             return "";
@@ -41,27 +43,11 @@ public class JobSequence {
 
         jobs.forEach(job -> {
             if (job.isDependent())
-                graph.putEdge(job.dependsOn, job.name);
+                graph.putEdge(job.getDependsOn(), job.getName());
             else
-                graph.addNode(job.name);
+                graph.addNode(job.getName());
         });
 
         return graph;
-    }
-
-    private static class Job {
-        private String name;
-
-        private String dependsOn;
-
-        private Job(String jobLine) {
-            String[] names = jobLine.split("=>");
-            name = names[0].trim();
-            dependsOn = names.length == 2 ? names[1].trim() : "";
-        }
-
-        private boolean isDependent() {
-            return !dependsOn.isEmpty();
-        }
     }
 }
