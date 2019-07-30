@@ -1,6 +1,6 @@
-# Order jobs in dependency order
+# Arrange jobs in dependency order
 
-Given a list of jobs the program orders jobs in their dependency order.
+Given a list of jobs the program arranges jobs in their dependency order.
 
 e.g.
 
